@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+  </head>
+  <body>
+    <form action="/post-login" method="post">
+      <input type="text" name="email" placeholder="Enter email" value="abcd" />
+      <input type="text" name="password" placeholder="Enter password" />
+
+      <button>Login</button>
+    </form>
+    <script>
+      const form = document.querySelector('form');
+      form.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        const i1 = form.firstElementChild; // i1.value
+        const i2 = i1.nextElementSibling;
+
+        const response = await fetch('/post-login', {
+          method: 'post',
+          body: JSON.stringify({ email: i1.value, password: i2.value }),
+          headers: { 'content-type': 'application/json' }
+        });
+        if (response.ok === false) {
+          const p = document.createElement('p');
+          p.innerHTML = 'invalid email or password';
+          p.style.color = 'red';
+          i2.after(p);
+        }
+        // response key: ok (true or false)
+        // true ==> status => 2xx
+        // false ==> status => 4xx, 5xx
+      });
+    </script>
+  </body>
+</html>
