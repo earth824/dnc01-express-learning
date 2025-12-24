@@ -51,6 +51,30 @@ app.post('/post-login', (req, res) => {
   // redirect success.html
 });
 
+// GET /products/nike, GET /products/adidas, GET /products/12345, GET /products/lkdldldld
+app.get('/products/:productName', (req, res) => {
+  console.log('req.params: ', req.params);
+  res.json('product page');
+});
+
+// GET /years/1990/months/09
+app.get('/years/:year/months/:month', (req, res) => {
+  // console.log(req.params);
+  // const year = +req.params.year;
+  console.log('req.query: ', req.query);
+  // ?completed=true&price=250
+  // { completed: 'true', price: '250' }
+  res.json('year and month');
+});
+
+// /update-customer, /edit-cust
+// PUT /customers (REST API)
+app.put('/customers', (req, res) => {
+  console.log(req.body);
+  console.log(req.query);
+  res.json('METHOD: PUT, PATH: /customers');
+});
+
 // server listen for request at port 8000
 app
   .listen(8001, () => console.log('server running on port 8001'))
