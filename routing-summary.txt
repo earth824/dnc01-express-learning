@@ -1,0 +1,68 @@
+REST API
+REQUEST METHOD: 
+  GET ==> read resource (No Body)
+  POST ==> create resource
+  PUT ==> update resource (update all property)
+  PATCH ==> update resource (update partial property)
+  DELETE ==> delete resource (No Body)
+REQUEST PATH:
+  DO THIS /products, /users, /carts, /orders, /payments
+  DONT DO THIS: /create-product, /add-product, /perm-product
+example: e-commerce app
+  product ==> called resource ==> CRUD (Create, Read, Update, Delete)
+  user ==> called resource ==> CRUD (Create, Read, Update, Delete)
+  cart ==> called resource ==> CRUD (Create, Read, Update, Delete)
+  order ==> called resource ==> CRUD (Create, Read, Update, Delete)
+  payment ==> called resource ==> CRUD (Create, Read, Update, Delete)
+  auth ==> called resource ==> login (need data: body), register, forget password (need body)
+example END POINT:
+  DELETE /products
+  POST /carts
+  GET /products ==> read all product
+  GET /products/:productName ==> read product by name
+  PUT /products ==> Old { name: 'Coke', price: 20 } ==> New { name: 'Coke', price: 23 }
+  PATCH /products ==> Old { name: 'Coke', price: 20 } ==> New { price: 23 }
+  POST /auth/register
+  POST /auth/login, /auth/google/login, /auth/github/login
+  POST /auth/forget-password
+
+CREATE WEB SERVER
+  const app = express()
+  app.listen(port, callback)
+
+CREATE ROUTE END POINT: app.METHOD(PATH, (req, res, next) => {})
+  app.get('/products', (req, res, next) => {})
+  app.post('/products', (req, res, next) => {})
+  app.put('/products', (req, res, next) => {})
+  app.patch('/products', (req, res, next) => {})
+  app.delete('/products', (req, res, next) => {})
+
+REQUEST PATH(ROUTE) PARAMETER ==> /products/:productName ==> :productName is called path parameter
+  ACCESS PATH PARAMETER ==> req.params
+  EX. /products/pepsi 
+    req.params ==> { productName: 'pepsi' }
+
+REQUEST QUERY PARAMETER(STRING) ==> /products?sort=price,desc&category=shirt 
+==> ?sort=price,desc&category=shirt called query string
+  ACCESS QUERY PARAMETER ==> req.query
+  EX. /products?sort=price,desc&category=shirt 
+    req.query ==> { sort: 'price,desc', category: 'shirt' }
+
+REQUEST BODY
+  ACCESS BODY ==> req.body (need command to use)
+    CASE: application/x-www-form-urlencoded ==> app.use(express.urlencoded())
+    CASE: application/json ==> app.use(express.json())
+    CASE: multipart/form-data ==> app.use(multer()); multer is third party module, upload file(jpg, pdf, mp4)
+  EX. BODY: { "name": "John", "age": 20 }
+    req.body ==> { name: 'John', age: 20 }
+
+REQUEST HEADER (ex. content-type, authorization)
+  ACCESS HEADER ==> req.headers
+
+RESPONSE STATUS CODE: res.status(HTTP_STATUS_CODE), 2xx, 3xx, 4xx, DEFAULT VALUE: 200
+  EX. res.status(201), res.status(400)
+
+SENT RESPONSE METHOD:
+  res.send(DATA) // depend on the data. may be text/html, applicaiton/json etc.
+  res.sendFile(FILE_ABSOLUTE_PATH)
+  res.json(DATA) // application/json
